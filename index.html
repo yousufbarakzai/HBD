@@ -3,633 +3,159 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>یک بازی کوچک 🎮</title>
+<title>برای افسانه ❤️</title>
 
 <style>
-*{box-sizing:border-box}
-
-body{
-  margin:0;
-  min-height:100vh;
-  min-height:100dvh;
-  font-family:Tahoma,Arial,sans-serif;
-  color:white;
-  background:linear-gradient(145deg,#100e2e,#27215a,#54265f);
-  overflow-x:hidden;
-  text-align:center;
+* {
+  box-sizing: border-box;
 }
 
-.screen{
-  min-height:100vh;
-  min-height:100dvh;
-  display:none;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  padding:20px 16px;
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  font-family: Tahoma, Arial, sans-serif;
+  background: linear-gradient(135deg, #260b25, #7b2456, #ed719c);
+  color: white;
 }
 
-.screen.active{display:flex}
-
-.box{
-  width:100%;
-  max-width:390px;
-  padding:25px 18px;
-  border:1px solid #ffffff30;
-  border-radius:25px;
-  background:#ffffff12;
-  box-shadow:0 15px 50px #0003;
-  backdrop-filter:blur(12px);
-  animation:appear .6s ease;
+.card {
+  width: 100%;
+  max-width: 430px;
+  padding: 30px 22px;
+  text-align: center;
+  border-radius: 25px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.3);
+  box-shadow: 0 10px 35px #0005;
 }
 
-.icon{font-size:55px;margin-bottom:10px}
-
-h1{
-  font-size:26px;
-  color:#ffc8e6;
-  line-height:1.7;
+.heart {
+  font-size: 65px;
+  animation: beat 1s infinite;
 }
 
-p{
-  font-size:15px;
-  line-height:2.2;
-  color:#f8eaff;
+h1 {
+  color: #ffd6e7;
+  font-size: 30px;
 }
 
-button{
-  display:block;
-  width:100%;
-  min-height:52px;
-  border:0;
-  border-radius:15px;
-  margin-top:12px;
-  padding:13px;
-  color:white;
-  font-family:inherit;
-  font-size:15px;
-  font-weight:bold;
-  background:linear-gradient(100deg,#7867f7,#d45ca9);
-  box-shadow:0 5px 20px #8a56dd30;
-  cursor:pointer;
-  -webkit-tap-highlight-color:transparent;
+.intro {
+  line-height: 2;
+  color: #ffe5f0;
 }
 
-button:active{transform:scale(.97)}
-
-.progress{
-  height:5px;
-  background:#ffffff20;
-  border-radius:10px;
-  overflow:hidden;
-  margin-bottom:20px;
+button {
+  border: none;
+  border-radius: 30px;
+  padding: 14px 22px;
+  background: #ff8db5;
+  color: #43102c;
+  font-size: 16px;
+  font-weight: bold;
+  font-family: Tahoma, Arial, sans-serif;
+  cursor: pointer;
+  margin-top: 15px;
 }
 
-#bar{
-  width:0;
-  height:100%;
-  background:#ff9bdb;
-  transition:width .4s;
+.message {
+  display: none;
+  text-align: right;
+  line-height: 2.2;
+  margin-top: 25px;
+  padding: 18px;
+  border-radius: 18px;
+  background: rgba(0,0,0,0.15);
+  animation: appear 1s ease;
 }
 
-.small{font-size:12px;opacity:.7}
-
-/* تولد */
-
-#surprise{
-  position:fixed;
-  inset:0;
-  z-index:10;
-  display:none;
-  overflow-y:auto;
-  background:#170b31;
+.message strong {
+  color: #ffd1e4;
 }
 
-#surprise.show{
-  display:block;
-  animation:flash .8s ease;
+.footer {
+  margin-top: 25px;
+  color: #ffd6e7;
+  font-size: 13px;
 }
 
-.birthday{
-  min-height:100vh;
-  min-height:100dvh;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  padding:25px 18px 40px;
-  background:
-    radial-gradient(circle at 50% 30%,#773e85 0%,transparent 45%),
-    linear-gradient(160deg,#170b31,#4a174f,#8c286d);
-  position:relative;
-  overflow:hidden;
+@keyframes beat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
 }
 
-.content{
-  width:100%;
-  max-width:400px;
-  position:relative;
-  z-index:2;
-  animation:zoomIn .9s ease;
-}
-
-.birthday h1{
-  color:#ffcae7;
-  text-shadow:0 0 18px #ff58b6;
-}
-
-.cake-area{
-  height:240px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.cake{
-  position:relative;
-  width:230px;
-  height:155px;
-  margin-top:55px;
-}
-
-.bottom{
-  position:absolute;
-  bottom:0;
-  left:15px;
-  width:200px;
-  height:65px;
-  border-radius:12px 12px 22px 22px;
-  background:linear-gradient(#ffadd3,#f33f91);
-  box-shadow:inset 0 -9px #d72e73,0 8px 20px #0003;
-}
-
-.top{
-  position:absolute;
-  bottom:55px;
-  left:35px;
-  width:160px;
-  height:55px;
-  border-radius:13px 13px 18px 18px;
-  background:linear-gradient(#fff0f8,#ffadd4);
-  box-shadow:inset 0 -7px #ff79b2;
-}
-
-.cream{
-  position:absolute;
-  bottom:91px;
-  left:35px;
-  width:160px;
-  height:20px;
-  border-radius:50%;
-  background:#fff5fb;
-}
-
-.candle{
-  position:absolute;
-  bottom:108px;
-  width:12px;
-  height:43px;
-  border-radius:4px;
-  background:repeating-linear-gradient(
-    45deg,#fff 0 6px,#ff4f91 6px 12px
-  );
-  z-index:3;
-}
-
-.c1{left:66px}
-.c2{left:109px;bottom:120px}
-.c3{left:152px}
-
-.flame{
-  position:absolute;
-  top:-21px;
-  left:0;
-  width:13px;
-  height:20px;
-  border-radius:50% 50% 50% 0;
-  transform:rotate(-45deg);
-  background:linear-gradient(#fff9a6,#ffb000,#ff4b00);
-  box-shadow:0 0 15px #ffb52e;
-  animation:flicker .2s infinite alternate;
-}
-
-@keyframes flicker{
-  from{scale:.9}
-  to{scale:1.12}
-}
-
-.flame.off{
-  animation:blow .45s forwards;
-}
-
-@keyframes blow{
-  to{
-    opacity:0;
-    transform:translate(30px,-10px) scale(0) rotate(60deg);
-  }
-}
-
-.smoke{
-  position:absolute;
-  top:-28px;
-  left:-5px;
-  opacity:0;
-  font-size:24px;
-}
-
-.smoke.show{
-  animation:smoke 1.4s forwards;
-}
-
-@keyframes smoke{
-  0%{opacity:0;transform:translateY(10px) scale(.5)}
-  30%{opacity:.7}
-  100%{opacity:0;transform:translateY(-35px) scale(1.7)}
-}
-
-#birthdayMessage{
-  display:none;
-  margin-top:22px;
-  font-size:14px;
-  line-height:2.3;
-  color:#fff0f8;
-  animation:appear 1s;
-}
-
-#blowButton{
-  background:linear-gradient(90deg,#ff438c,#ff79b0);
-  font-size:17px;
-  border-radius:30px;
-}
-
-.particle{
-  position:fixed;
-  top:-30px;
-  z-index:20;
-  pointer-events:none;
-  animation:fall linear forwards;
-}
-
-@keyframes fall{
-  to{
-    transform:translateY(110vh) rotate(720deg);
-    opacity:0;
-  }
-}
-
-.burst{
-  position:fixed;
-  inset:0;
-  z-index:15;
-  pointer-events:none;
-  background:white;
-  animation:burst .9s forwards;
-}
-
-@keyframes burst{
-  0%{opacity:0}
-  15%{opacity:1}
-  100%{opacity:0}
-}
-
-@keyframes flash{
-  0%{opacity:0}
-  35%{opacity:1}
-  55%{opacity:.5}
-  100%{opacity:1}
-}
-
-@keyframes appear{
-  from{opacity:0;transform:translateY(15px)}
-  to{opacity:1;transform:translateY(0)}
-}
-
-@keyframes zoomIn{
-  from{opacity:0;transform:scale(.65)}
-  to{opacity:1;transform:scale(1)}
-}
-
-@media(max-height:650px){
-  .screen{padding:12px}
-  .box{padding:17px}
-  .cake-area{height:210px}
-  .birthday{padding-top:15px}
+@keyframes appear {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 </style>
 </head>
 
 <body>
 
-<!-- مرحله اول -->
+<div class="card">
 
-<section class="screen active" id="game">
-  <div class="box">
-    <div class="icon">🎮</div>
-    <h1>یک بازی کوچولو!</h1>
-    <p>
-      چند سؤال دارم که باید جواب بدهی.<br>
-      ببینیم چندتایش را درست حدس می‌زنی! 😏
-    </p>
-    <button onclick="startGame()">شروع بازی 🎯</button>
-    <div class="small">فقط چند سؤال ساده...</div>
+  <div class="heart">❤️</div>
+
+  <h1>برای افسانه</h1>
+
+  <p class="intro">
+    یک حرف از دلم دارم که شاید تا حالا درست برایت نگفته باشم... 💌
+  </p>
+
+  <button onclick="showMessage()" id="openBtn">
+    پیام قلبم را باز کن 💌
+  </button>
+
+  <div class="message" id="message">
+
+    افسانه جانم ❤️🌹
+
+    <br><br>
+
+    شاید همیشه نتوانم احساساتم را با کلمات بیان کنم،
+    اما می‌خواهم بدانی که برایم خیلی عزیزی.
+
+    <br><br>
+
+    بودنت برایم ارزش دارد و خوشحالی‌ات برایم مهم است.
+    نمی‌خواهم فقط با حرف‌هایم ثابت کنم که دوستت دارم؛
+    می‌خواهم با احترام، صداقت و رفتارم هم این را نشانت بدهم. 💗
+
+    <br><br>
+
+    گاهی هزار حرف در دلم دارم، اما نمی‌دانم چطور بیان‌شان کنم.
+
+    <br><br>
+
+    <strong>
+      افسانه، تو برایم خاص هستی؛
+      بیشتر از چیزی که بتوانم در یک پیام بگویم. ❤️
+    </strong>
+
+    <br><br>
+
+    امیدوارم همیشه لبخند بر لبانت باشد و دلت خوش باشد. 🌷
+
+    <br><br>
+
+    <strong>این پیام فقط برای توست، افسانه جانم. 💖</strong>
+
   </div>
-</section>
 
-<!-- مرحله سؤال‌ها -->
-
-<section class="screen" id="quiz">
-  <div class="box">
-    <div class="progress"><div id="bar"></div></div>
-    <div class="icon" id="questionIcon">🤔</div>
-    <p id="number">سؤال ۱</p>
-    <h1 id="question"></h1>
-    <div id="answers"></div>
-    <p class="small" id="feedback"></p>
+  <div class="footer">
+    با صداقت، از دل برای دل ❤️
   </div>
-</section>
 
-<!-- مرحله سوم -->
-
-<section class="screen" id="tease">
-  <div class="box">
-    <div class="icon">🤨✨</div>
-    <h1>صبر کن یک لحظه!</h1>
-    <p>
-      فکر کردی بازی همین بود؟ 😂<br>
-      نه نه... هنوز یک مرحله باقی مانده!
-    </p>
-    <button onclick="nextTease()">ادامه بده 👀</button>
-  </div>
-</section>
-
-<!-- مرحله چهارم -->
-
-<section class="screen" id="secret">
-  <div class="box">
-    <div class="icon">🤫🎁</div>
-    <h1>یک چیز دیگه هم برات دارم...</h1>
-    <p>
-      این قسمت را اصلاً انتظار نداشتی! 🥹<br>
-      آماده‌ای؟
-    </p>
-    <button onclick="reveal()">آره، نشونم بده! ❤️</button>
-  </div>
-</section>
-
-<!-- سوپرایز تولد -->
-
-<div id="surprise">
-  <div class="birthday">
-    <div class="content">
-
-      <div class="icon">🎉🎁✨</div>
-
-      <h1>سوپرایزاااا! 🎂</h1>
-
-      <p>
-        فکر کردی یک بازی معمولی است؟ 😏<br>
-        این یکی مخصوص توست! ❤️
-      </p>
-
-      <div class="cake-area">
-        <div class="cake">
-
-          <div class="bottom"></div>
-          <div class="top"></div>
-          <div class="cream"></div>
-
-          <div class="candle c1">
-            <div class="flame"></div>
-            <div class="smoke">〰️</div>
-          </div>
-
-          <div class="candle c2">
-            <div class="flame"></div>
-            <div class="smoke">〰️</div>
-          </div>
-
-          <div class="candle c3">
-            <div class="flame"></div>
-            <div class="smoke">〰️</div>
-          </div>
-
-        </div>
-      </div>
-
-      <h1>تولدت مبارک! 🎂❤️</h1>
-
-      <p>
-        یک آرزو در دلت بکن...<br>
-        حالا شمع‌ها را فوت کن! 💨
-      </p>
-
-      <button id="blowButton" onclick="blowCandles()">
-        💨 فوت کن!
-      </button>
-
-      <!-- پیام اصلی -->
-
-      <div id="birthdayMessage">
-
-        <div style="font-size:45px">💖🥹🌹</div>
-
-        <h1>تولدت مبارک عزیزم! 🎂</h1>
-
-        <p>
-          می‌دونی چی شده؟ 🥹❤️<br><br>
-
-          <strong style="color:#ffcae7;font-size:19px">
-            ۳۶ روز از تولدت گذشته!
-          </strong>
-          🎂<br><br>
-
-          ببخش که این‌قدر از روز تولدت گذشته
-          و من تازه حالا رسیدم تا تولدت را تبریک بگویم. 🥺❤️<br><br>
-
-          می‌دانم که باید زودتر این روز قشنگ را
-          به تو تبریک می‌گفتم.<br><br>
-
-          اما حالا با تمام وجودم می‌گویم:<br>
-
-          <strong style="color:#ffcae7;font-size:20px">
-            تولدت مبارک! 🎉💖
-          </strong><br><br>
-
-          امیدوارم سال جدید زندگی‌ات پر از خوشی،
-          آرامش، موفقیت و رسیدن به تمام آرزوهای قشنگت باشد. 🌹<br><br>
-
-          <strong style="color:#ffe1a6">
-            ببخش که دیر رسیدم،
-            اما آرزوهای خوبم برایت هیچ‌وقت دیر نمی‌رسند. ❤️
-          </strong>
-        </p>
-
-        <div style="font-size:38px">
-          🎂🎉💖🎁🌹
-        </div>
-
-      </div>
-    </div>
-  </div>
 </div>
 
 <script>
-const questions = [
-  {
-    icon:"😊",
-    q:"وقتی یک روز سخت داری، کدام بهتر است؟",
-    a:["یک لبخند قشنگ 😊","یک خواب طولانی 😴","یک خوراکی خوشمزه 🍫"]
-  },
-  {
-    icon:"🌈",
-    q:"اگر می‌توانستی همین حالا جایی بروی، کجا می‌رفتی؟",
-    a:["یک جای آرام 🌿","یک شهر جدید 🏙️","یک جای پر از خوشی 🎡"]
-  },
-  {
-    icon:"✨",
-    q:"یک آرزوی قشنگ چه رنگی است؟",
-    a:["صورتی 💗","بنفش 💜","رنگین‌کمانی 🌈"]
-  },
-  {
-    icon:"🎁",
-    q:"حالا یک سؤال آخر...",
-    a:["آماده‌ام 😎","بزن بریم! 🚀","ببینم چی می‌شود 👀"]
-  }
-];
-
-let current=0;
-let locked=false;
-let blown=false;
-
-function showScreen(id){
-  document.querySelectorAll('.screen').forEach(s=>{
-    s.classList.remove('active');
-  });
-  document.getElementById(id).classList.add('active');
-}
-
-function startGame(){
-  current=0;
-  showScreen('quiz');
-  renderQuestion();
-}
-
-function renderQuestion(){
-  locked=false;
-  const q=questions[current];
-
-  document.getElementById('questionIcon').innerText=q.icon;
-  document.getElementById('number').innerText=
-    'سؤال '+(current+1)+' از '+questions.length;
-
-  document.getElementById('question').innerText=q.q;
-  document.getElementById('bar').style.width=
-    (current/questions.length*100)+'%';
-
-  document.getElementById('feedback').innerText='';
-
-  const answers=document.getElementById('answers');
-  answers.innerHTML='';
-
-  q.a.forEach(answer=>{
-    const btn=document.createElement('button');
-    btn.innerText=answer;
-    btn.onclick=selectAnswer;
-    answers.appendChild(btn);
-  });
-}
-
-function selectAnswer(){
-  if(locked)return;
-  locked=true;
-
-  document.getElementById('bar').style.width=
-    ((current+1)/questions.length*100)+'%';
-
-  document.getElementById('feedback').innerText=
-    ['آفرین! 😍','جواب جالبی بود! 😂','بسیار خوب! ✨'][
-      Math.floor(Math.random()*3)
-    ];
-
-  setTimeout(()=>{
-    current++;
-
-    if(current<questions.length){
-      renderQuestion();
-    }else{
-      showScreen('tease');
-    }
-  },800);
-}
-
-function nextTease(){
-  showScreen('secret');
-}
-
-function reveal(){
-  document.getElementById('surprise').classList.add('show');
-
-  const burst=document.createElement('div');
-  burst.className='burst';
-  document.body.appendChild(burst);
-
-  setTimeout(()=>burst.remove(),1000);
-
-  confetti(140);
-
-  if(navigator.vibrate){
-    navigator.vibrate([100,50,150]);
-  }
-}
-
-function confetti(amount){
-  const items=['🎉','🎊','✨','💖','💕','🌟','🎈'];
-
-  for(let i=0;i<amount;i++){
-    const el=document.createElement('div');
-    el.className='particle';
-    el.textContent=items[
-      Math.floor(Math.random()*items.length)
-    ];
-
-    el.style.left=Math.random()*100+'vw';
-    el.style.animationDuration=(2+Math.random()*3)+'s';
-    el.style.animationDelay=Math.random()*.5+'s';
-    el.style.fontSize=(15+Math.random()*20)+'px';
-
-    document.body.appendChild(el);
-    setTimeout(()=>el.remove(),6000);
-  }
-}
-
-function blowCandles(){
-  if(blown)return;
-  blown=true;
-
-  document.querySelectorAll('.flame').forEach((flame,i)=>{
-    setTimeout(()=>{
-      flame.classList.add('off');
-    },i*180);
-  });
-
-  document.querySelectorAll('.smoke').forEach((smoke,i)=>{
-    setTimeout(()=>{
-      smoke.classList.add('show');
-    },i*180+200);
-  });
-
-  document.getElementById('blowButton').style.display='none';
-
-  setTimeout(()=>{
-    document.getElementById('birthdayMessage').style.display='block';
-
-    confetti(100);
-
-    document.getElementById('birthdayMessage').scrollIntoView({
-      behavior:'smooth',
-      block:'start'
-    });
-  },1100);
+function showMessage() {
+  document.getElementById("message").style.display = "block";
+  document.getElementById("openBtn").style.display = "none";
 }
 </script>
 
